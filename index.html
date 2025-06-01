@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Sayangkuu 😘</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="firstPage" class="page">
+    <div class="heart-btn" onclick="showSecondPage()">
+      <div class="heart">❤</div>
+    </div>
+    <div class="label">Klik Love nya</div>
+  </div>
+
+  <div id="secondPage" class="page hidden">
+    <div class="photo-card">
+      <div class="photo-frame" id="photo"></div>
+      <div class="message" id="message">UcapanKalian</div>
+    </div>
+    <div class="nav-btns-split">
+         <div class="nav-btns-left">
+             <div class="arrow" onclick="prevSlide()">&#8592;</div>
+        </div>
+        <div class="nav-btns-right">
+            <div class="arrow" onclick="nextSlide()">&#8594;</div>
+        </div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>
