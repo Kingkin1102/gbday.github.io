@@ -192,6 +192,9 @@ function replay() {
         currentPhotoIndex = 0;
         currentRiddleIndex = 0;
 
+        // Reset posisi tombol "Gak ah." ke posisi awal
+        noBtn.removeAttribute('style');
+
         firstPage.style.display = 'flex';
         firstPage.classList.remove('hidden');
     }, 500);
