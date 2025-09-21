@@ -21,18 +21,6 @@
       padding: 1rem;
     }
 
-    /* Falling hearts */
-    .heart-fall {
-      position: absolute;
-      top: -50px;
-      font-size: 1.5rem;
-      color: coral;
-      animation: fall linear infinite;
-    }
-    @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
 
     /* First Page */
     #firstPage {
@@ -158,3 +146,157 @@
     transform: scale(0.95);
     pointer-events: none;
     }
+
+    .gift-box {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+.gift-box:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+.gift-icon {
+  font-size: 80px; /* Ukuran emoji kado */
+}
+
+/* Styling untuk Halaman Baru (Card, Tebakan, Ajakan) */
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 90%;
+  width: 400px;
+}
+
+.riddle-question {
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.riddle-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.riddle-option {
+  padding: 12px;
+  border: 2px solid #ffe6e6;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.riddle-option:hover {
+  background-color: #ffe6e6;
+  transform: scale(1.05);
+}
+
+.riddle-feedback {
+  margin-top: 1rem;
+  font-weight: bold;
+  min-height: 24px;
+}
+
+.invitation-buttons {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#yesBtn, #noBtn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transisi untuk tombol lari */
+}
+
+#yesBtn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+#noBtn {
+    background-color: #f44336; /* Red */
+    color: white;
+    position: relative; /* Diperlukan agar tombol bisa lari */
+}
+
+.final-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cat-sticker {
+    width: 150px;
+    height: 150px;
+}
+
+/* Styling untuk Tombol Replay */
+#replayBtn {
+    margin-top: 1.5rem;
+    padding: 10px 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#replayBtn:hover {
+    background-color: #eee;
+    border-color: #bbb;
+    transform: scale(1.05);
+}
+
+/* === KODE PERBAIKAN UNTUK LAYOUT BERANTAKAN === */
+
+/* 1. Memperbaiki Tombol "Next" agar tidak bulat & lebih besar */
+.arrow {
+    width: auto; /* Hapus lebar tetap */
+    height: auto; /* Hapus tinggi tetap */
+    padding: 12px 25px; /* Tambahkan ruang di dalam tombol */
+    border-radius: 50px; /* Ubah dari lingkaran menjadi bentuk pil */
+    font-size: 1.1rem; /* Sedikit perbesar tulisan */
+    font-weight: bold;
+}
+
+/* 2. Memastikan posisi tombol selalu di tengah */
+.nav-btns-split {
+    /* Menghapus gap karena hanya ada 1 tombol */
+    gap: 0; 
+}
+
+/* Hapus style yang tidak perlu lagi */
+.nav-btns-left, .nav-btns-right {
+    margin-top: 0;
+    gap: 0;
+}
+
+/* 3. Memastikan teks ucapan selalu di tengah kartu */
+.message {
+    text-align: center;
+}
+
+.riddle-counter {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #888;
+}

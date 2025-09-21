@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Sayangkuu 😘</title>
+  <title>Happy Birthday, [Nama Dia]!</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="firstPage" class="page">
-    <div class="heart-btn" onclick="showSecondPage()">
-      <div class="heart">❤</div>
-    </div>
-    <div class="label">Klik Love nya</div>
+  <div class="gift-box" onclick="showRiddlePage()">
+    <div class="gift-icon">🎁</div>
   </div>
+  <div class="label">Ada hadiah buat kamu, coba buka!</div>
+</div>
+
+<div id="riddlePage" class="page hidden">
+    <div class="card">
+        <h2 id="riddle-question" class="riddle-question"></h2> <div id="riddle-options" class="riddle-options">
+            </div>
+        <div id="riddle-feedback" class="riddle-feedback"></div>
+        <div id="riddle-counter" class="riddle-counter"></div> </div>
+</div>
 
   <div id="secondPage" class="page hidden">
     <div class="photo-card">
@@ -20,14 +28,31 @@
       <div class="message" id="message">UcapanKalian</div>
     </div>
     <div class="nav-btns-split">
-         <div class="nav-btns-left">
-             <div class="arrow" onclick="prevSlide()">&#8592;</div>
-        </div>
-        <div class="nav-btns-right">
-            <div class="arrow" onclick="nextSlide()">&#8594;</div>
+      <div class="nav-btns-right">
+        <div class="arrow" onclick="nextSlide()">Next &#8594;</div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="invitationPage" class="page hidden">
+    <div class="card">
+        <h2>Satu pertanyaan terakhir...</h2>
+        <p>Sebagai traktiran ulang tahun, mau ga kita makan bareng kapan-kapan?</p>
+        <div class="invitation-buttons">
+            <button id="yesBtn" onclick="showFinalMessage()">Mau!</button>
+            <button id="noBtn">Gak ah.</button>
         </div>
     </div>
   </div>
+  
+  <div id="finalMessagePage" class="page hidden">
+      <div class="card final-card">
+          <img src="asset/cat-sticker.gif" alt="Cute Cat Sticker" class="cat-sticker">
+          <p>Yess! Nanti kita atur waktunya yaa. <br>Once again, Happy Birthday! 😊</p>
+          <button id="replayBtn">Ulangi dari Awal 🔁</button>
+      </div>
+  </div>
+
   <script src="index.js"></script>
 </body>
 </html>

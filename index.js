@@ -1,56 +1,213 @@
- const photos = [
-      { image: 'asset/1.jpg', message: 'Happy Birthday sayang! 💖' },
-      { image: 'asset/2.jpg', message: 'Semoga harimu indah terus~ ☀️' },
-      { image: 'asset/3.jpg', message: 'Love you always 😘' },
-    ];
+// ==========================================================
+// KODE LENGKAP index.js DENGAN 4 SOAL TEBAK-TEBAKAN
+// ==========================================================
 
-    let current = 0;
+const photos = [
+    { image: 'asset/foto_baru_1.jpg', message: 'Selamat ulang tahun, [Nama Dia]! 🎉' },
+    { image: 'asset/foto_ramean.jpg', message: 'Semoga semua keinginanmu di tahun ini tercapai ya!' },
+    { image: 'asset/foto_candid_dia.jpg', message: 'Tetap jadi orang yang baik dan hebat ya. Happy birthday!' },
+];
 
-    function showSecondPage() {
-    const first = document.getElementById('firstPage');
-    const second = document.getElementById('secondPage');
-
-    first.classList.add('hidden');
-    setTimeout(() => {
-        first.style.display = 'none';
-        second.style.display = 'flex';
-        second.classList.remove('hidden');
-        updateSlide();
-        startHeartFall();
-    }, 500); // waktu harus sama dengan CSS transition
+// Kumpulan soal tebak-tebakan
+// Kumpulan soal tebak-tebakan dengan penjelasan
+const riddles = [
+    {
+        question: "Benda apa yang kalau dibalik jadi rusak?",
+        options: ["Gelas", "Cermin", "Kasur"],
+        answer: "Kasur",
+        explanation: "Benar! Karena 'kasur' kalau dibalik jadi 'rusak'. Hehe😁."
+    },
+    {
+        question: "Apa bedanya gitar sama kamu?",
+        options: ["Gitar punya senar", "Gitar bisa disetel", "Kalo gitar dipetik, kalo kamu paling cantik"],
+        answer: "Kalo gitar dipetik, kalo kamu paling cantik",
+        explanation: "Eaaaa... Bener kaan! hehehe."
+    },
+    {
+        question: "Kenapa air laut rasanya asin?",
+        options: ["Karena ikannya keringetan", "Karena mengandung garam", "Karena lautnya nangis"],
+        answer: "Karena ikannya keringetan",
+        explanation: "Tepat! Capek kan berenang terus, jadi keringetan deh ikannya."
+    },
+    {
+        question: "Apa bedanya kamu sama jam 12:00?",
+        options: ["Ga ada bedanya", "Jam 12:00 kesiangan, kamu kesayangan", "Kamu lebih berisik"],
+        answer: "Jam 12:00 kesiangan, kamu kesayangan",
+        explanation: "Asiik, bener! Eaaaaak~"
     }
+];
+
+let currentPhotoIndex = 0;
+let currentRiddleIndex = 0;
+let feedbackTimeout;
+
+// Ambil semua elemen halaman
+const firstPage = document.getElementById('firstPage');
+const riddlePage = document.getElementById('riddlePage');
+const secondPage = document.getElementById('secondPage');
+const invitationPage = document.getElementById('invitationPage');
+const finalMessagePage = document.getElementById('finalMessagePage');
+const noBtn = document.getElementById('noBtn');
+const replayBtn = document.getElementById('replayBtn');
+
+// Ambil elemen untuk tebak-tebakan
+const riddleQuestionEl = document.getElementById('riddle-question');
+const riddleOptionsEl = document.getElementById('riddle-options');
+const riddleFeedbackEl = document.getElementById('riddle-feedback');
+const riddleCounterEl = document.getElementById('riddle-counter');
 
 
-    function updateSlide() {
+// --- FUNGSI UNTUK PERPINDAHAN HALAMAN ---
+
+function showRiddlePage() {
+    firstPage.classList.add('hidden');
+    setTimeout(() => {
+        firstPage.style.display = 'none';
+        riddlePage.style.display = 'flex';
+        riddlePage.classList.remove('hidden');
+        displayRiddle(); // Tampilkan soal pertama
+    }, 500);
+}
+
+function showGalleryPage() {
+    riddlePage.classList.add('hidden');
+    setTimeout(() => {
+        riddlePage.style.display = 'none';
+        secondPage.style.display = 'flex';
+        secondPage.classList.remove('hidden');
+        updateSlide();
+    }, 500);
+}
+
+function showInvitationPage() {
+    secondPage.classList.add('hidden');
+    setTimeout(() => {
+        secondPage.style.display = 'none';
+        invitationPage.style.display = 'flex';
+        invitationPage.classList.remove('hidden');
+    }, 500);
+}
+
+function showFinalMessage() {
+    invitationPage.classList.add('hidden');
+    setTimeout(() => {
+        invitationPage.style.display = 'none';
+        finalMessagePage.style.display = 'flex';
+        finalMessagePage.classList.remove('hidden');
+    }, 500);
+}
+
+
+// --- LOGIKA HALAMAN TEBAKAN (BARU) ---
+
+function displayRiddle() {
+    // Bersihkan pilihan sebelumnya
+    riddleOptionsEl.innerHTML = '';
+    riddleFeedbackEl.textContent = '';
+    
+    // Ambil data soal saat ini
+    const currentRiddle = riddles[currentRiddleIndex];
+    
+    // Tampilkan pertanyaan dan counter
+    riddleQuestionEl.innerHTML = currentRiddle.question;
+    riddleCounterEl.textContent = `Soal ${currentRiddleIndex + 1} dari ${riddles.length}`;
+    
+    // Buat tombol pilihan jawaban
+    currentRiddle.options.forEach(option => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.classList.add('riddle-option');
+        button.onclick = () => checkAnswer(option === currentRiddle.answer, button);
+        riddleOptionsEl.appendChild(button);
+    });
+}
+
+function checkAnswer(isCorrect, element) {
+    // 1. Hentikan timer sebelumnya yang mungkin masih berjalan
+    clearTimeout(feedbackTimeout); 
+
+    if (isCorrect) {
+        const currentRiddle = riddles[currentRiddleIndex];
+        riddleFeedbackEl.textContent = currentRiddle.explanation || "Hahaha bener!";
+        riddleFeedbackEl.style.color = 'green';
+        
+        document.querySelectorAll('.riddle-option').forEach(btn => btn.disabled = true);
+        
+        setTimeout(() => {
+            currentRiddleIndex++;
+            if (currentRiddleIndex < riddles.length) {
+                displayRiddle();
+            } else {
+                showGalleryPage();
+            }
+        }, 2500);
+
+    } else {
+        riddleFeedbackEl.textContent = "Salahh, coba lagi doong!";
+        riddleFeedbackEl.style.color = 'red';
+        element.style.borderColor = 'red';
+
+        // 2. Simpan ID timer yang baru ke dalam variabel
+        feedbackTimeout = setTimeout(() => { 
+            riddleFeedbackEl.textContent = "";
+            element.style.borderColor = '#ffe6e6';
+        }, 1500);
+    }
+}
+
+
+// --- LOGIKA GALERI FOTO ---
+function updateSlide() {
     const photoFrame = document.getElementById('photo');
     const message = document.getElementById('message');
-    photoFrame.innerHTML = `<img src="${photos[current].image}" alt="photo" style="width:100%; height:100%; object-fit: cover; border-radius: 4px;" />`;
-    message.innerText = photos[current].message;
+    photoFrame.innerHTML = `<img src="${photos[currentPhotoIndex].image}" alt="photo" style="width:100%; height:100%; object-fit: cover; border-radius: 4px;" />`;
+    message.innerText = photos[currentPhotoIndex].message;
+}
+
+function nextSlide() {
+    if (currentPhotoIndex === photos.length - 1) {
+        showInvitationPage();
+    } else {
+        currentPhotoIndex++;
+        updateSlide();
     }
+}
 
 
-    function nextSlide() {
-      current = (current + 1) % photos.length;
-      updateSlide();
-    }
+// --- FUNGSI UNTUK TOMBOL REPLAY ---
+function replay() {
+    finalMessagePage.classList.add('hidden');
+    
+    setTimeout(() => {
+        riddlePage.style.display = 'none';
+        riddlePage.classList.add('hidden');
+        secondPage.style.display = 'none';
+        secondPage.classList.add('hidden');
+        invitationPage.style.display = 'none';
+        invitationPage.classList.add('hidden');
+        finalMessagePage.style.display = 'none';
 
-    function prevSlide() {
-      current = (current - 1 + photos.length) % photos.length;
-      updateSlide();
-    }
+        // Reset semua index ke awal
+        currentPhotoIndex = 0;
+        currentRiddleIndex = 0;
 
-    function startHeartFall() {
-      setInterval(() => {
-        const heart = document.createElement('div');
-        heart.className = 'heart-fall';
-        heart.innerText = '❤';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (3 + Math.random() * 4) + 's';
+        firstPage.style.display = 'flex';
+        firstPage.classList.remove('hidden');
+    }, 500);
+}
 
-        document.getElementById('secondPage').appendChild(heart);
 
-        setTimeout(() => {
-          heart.remove();
-        }, 5000);
-      }, 300);
-    }
+// --- EVENT LISTENERS ---
+noBtn.addEventListener('mouseover', () => {
+    const container = invitationPage.getBoundingClientRect();
+    const btn = noBtn.getBoundingClientRect();
+    
+    let newTop = Math.random() * (container.height - btn.height);
+    let newLeft = Math.random() * (container.width - btn.width);
+
+    noBtn.style.position = 'absolute';
+    noBtn.style.top = `${newTop}px`;
+    noBtn.style.left = `${newLeft}px`;
+});
+
+replayBtn.addEventListener('click', replay);
