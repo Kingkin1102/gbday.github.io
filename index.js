@@ -3,9 +3,10 @@
 // ==========================================================
 
 const photos = [
-    { image: 'asset/foto_baru_1.jpg', message: 'Selamat ulang tahun, [Nama Dia]! 🎉' },
+    { image: 'asset/foto_baru_1.jpg', message: 'Selamat ulang tahun, Gracee! 🎉' },
     { image: 'asset/foto_ramean.jpg', message: 'Semoga semua keinginanmu di tahun ini tercapai ya!' },
-    { image: 'asset/foto_candid_dia.jpg', message: 'Tetap jadi orang yang baik dan hebat ya. Happy birthday!' },
+    { image: 'asset/foto_candid_dia.jpg', message: 'Aku tahu kamu punya banyak mimpi besar, semoga di tahun ini kamu selangkah lebih dekat untuk meraih semuanya. I will always support you. Semangat terus!' },
+    { image: 'asset/foto_candid_dia.jpg', message: 'Your are doing great this year!! Tetap jadi orang yang baik dan hebat ya. Happy birthday!' },
 ];
 
 // Kumpulan soal tebak-tebakan
@@ -197,8 +198,10 @@ function replay() {
 }
 
 
-// --- EVENT LISTENERS ---
-noBtn.addEventListener('mouseover', () => {
+// --- EVENT LISTENERS (BAGIAN PALING PENTING) ---
+
+// 1. Logika untuk memindahkan tombol
+const moveButton = () => {
     const container = invitationPage.getBoundingClientRect();
     const btn = noBtn.getBoundingClientRect();
     
@@ -208,6 +211,20 @@ noBtn.addEventListener('mouseover', () => {
     noBtn.style.position = 'absolute';
     noBtn.style.top = `${newTop}px`;
     noBtn.style.left = `${newLeft}px`;
-});
+};
+
+// 2. Fungsi untuk mendeteksi perangkat layar sentuh
+const isTouchDevice = () => {
+    return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+};
+
+// 3. Logika utama: pasang event listener sesuai jenis perangkat
+if (isTouchDevice()) {
+    // Untuk HP/Tablet: lari saat disentuh
+    noBtn.addEventListener('click', moveButton);
+} else {
+    // Untuk Laptop/PC: lari saat di-hover
+    noBtn.addEventListener('mouseover', moveButton);
+}
 
 replayBtn.addEventListener('click', replay);
